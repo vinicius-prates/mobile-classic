@@ -10,36 +10,36 @@ const PORT = 4000
 
 app.disable('etag');
 
-const createProdutoTable = async () => {
+const createNoteTable = async () => {
     db.serialize(() => {
         db.exec(
-            "DROP TABLE IF EXISTS Produto; CREATE TABLE IF NOT EXISTS Produto (produtoId INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, valor TEXT);"
+            "DROP TABLE IF EXISTS Note; CREATE TABLE IF NOT EXISTS Note (noteId INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT);"
         )
     })
 }
 
-createProdutoTable()
+createNoteTable()
 
-app.get('/produtos', async (req, res) => {
-    let sql = "SELECT * FROM Produto;"
+app.get('/notes', async (req, res) => {
+    let sql = "SELECT * FROM Note;"
 
     db.serialize(() => {
         db.all(sql, function (err, rows) {
             if (err) return res.status(500).json({ err, msg: err.message })
-            res.json({ produtos: rows })
+            res.json({ notes: rows })
         })
     })
     return;
 })
 
-app.post('/criar-produto', async (req, res) => {
+app.post('/new-note', async (req, res) => {
     console.log('body =>', req.body);
     db.serialize(() => {
         db.run(
-            "INSERT INTO Produto (nome, valor) VALUES (?,?);",
+            "INSERT INTO Note (title, description) VALUES (?,?);",
             [
-                req.body.nome,
-                req.body.valor
+                req.body.title,
+                req.body.description
             ],
             function (err) {
                 if (err) {
@@ -52,8 +52,8 @@ app.post('/criar-produto', async (req, res) => {
     return;
 })
 
-app.delete('/deleta/:id', async (req, res) => {
-    let sql = 'DELETE FROM Produto WHERE produtoId = ?;'
+app.delete('/delete-note/:id', async (req, res) => {
+    let sql = 'DELETE FROM Note WHERE noteId = ?;'
     console.log('about to exec', sql);
     db.serialize(() => {
         db.run(
