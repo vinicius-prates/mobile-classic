@@ -65,7 +65,7 @@ export default function CreateNoteModal({ isActive, setIsActive, setNotes }) {
                 console.log(isActive);
               }}
             >
-              <Text>+</Text>
+              <Text>add note</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -98,15 +98,15 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   addNoteButton: {
-    marginTop: 10,
+    margin: 10,
     padding: 10,
     alignItems: "center",
     backgroundColor: "#FFF",
-    width: "50px",
+    width: "100px",
     height: "50px",
     color: "#000",
     justifyContent: "center",
-    borderRadius: "50%",
+    borderRadius: "10%",
   },
   text: {
     padding: 10,

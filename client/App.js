@@ -31,8 +31,8 @@ export default function App() {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.navbar}>
-          <AppHeaderText>SagiNote</AppHeaderText>
-          <Text style={styles.authorName}>made by: gustavobaltazar</Text>
+          <AppHeaderText>Prt-Notes</AppHeaderText>
+          <Text style={styles.authorName}>made by: vinicius-prates</Text>
         </View>
       </View>
       <View style={styles.areaNote}>
@@ -73,7 +73,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     width: "100vw",
-    backgroundColor: "#121214",
+    backgroundColor: "#323437",
     alignItems: "center",
   },
   content: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   newNoteButton: {
     marginTop: "20px",
     marginBottom: "20px",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "#e2b714",
     alignItems: "left",
     width: "100%",
     padding: "10px",
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   noteTitle: {
-    color: "#8257e5",
+    color: "#e2b714",
     fontSize: "2rem",
     lineHeight: "2rem",
     fontWeight: "700",
@@ -134,12 +134,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   buttonText: {
-    color: "#8257e5",
+    color: "#fff",
   },
   authorName: {
     fontSize: "1.5rem",
     lineHeight: "2rem",
-    color: "#8257e5",
+    color: "#e2b714",
   },
   locationDeleteButton: {
     alignItems: "flex-end",
