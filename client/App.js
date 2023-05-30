@@ -1,14 +1,9 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AppHeaderText from "./components/AppHeaderText";
+import CreateNoteModal from "./components/CreateNoteModal";
 const URL = "http://localhost:4000";
 
 export default function App() {
@@ -32,60 +27,42 @@ export default function App() {
     fetchNotes();
   };
 
-  const addNote = async () => {
-    console.log("adding note: ", { title: title, description: description });
-    const res = await axios.post(`${URL}/new-note`, {
-      title: title,
-      description: description,
-    });
-    fetchNotes();
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.navbar}>
           <AppHeaderText>SagiNote</AppHeaderText>
-          <Text style={styles.name}>made by: gustavobaltazar</Text>
+          <Text style={styles.authorName}>made by: gustavobaltazar</Text>
         </View>
       </View>
-      <View>
-        <TextInput
-          label={"Note"}
-          placeholder={"Title"}
-          style={styles.defaultInput}
-          onChangeText={setTitle}
-          value={title}
-        />
-        <TextInput
-          label={"Valor"}
-          placeholder={"Description"}
-          style={styles.defaultInput}
-          onChangeText={setDescription}
-          value={description}
-        />
+      <View style={styles.areaNote}>
         <TouchableOpacity
           style={styles.newNoteButton}
-          onPress={async () => {
-            await addNote();
+          onPress={() => {
             setCreateNoteModal(true);
           }}
         >
-          <Text>+</Text>
+          <Text style={styles.buttonText}>New Note</Text>
         </TouchableOpacity>
+        <CreateNoteModal
+          setIsActive={setCreateNoteModal}
+          isActive={createNoteModal}
+          setNotes={setNotes}
+        />
         {notes.map((note) => (
-          <View>
-            <View style={styles.note}>
-              <Text>
-                {note.title} - {note.description}
+          <View key={note.noteId} style={styles.note}>
+            <View>
+              <Text style={styles.noteTitle}>{note.title}</Text>
+              <Text style={styles.noteDescription}>{note.description}</Text>
+            </View>
+            <View style={styles.locationDeleteButton}>
+              <Text
+                style={styles.deleteButton}
+                onPress={() => deleteNote(note.noteId)}
+              >
+                Delete
               </Text>
             </View>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={() => deleteNote(note.noteId)}
-            >
-              <Text>Deletar</Text>
-            </TouchableOpacity>
           </View>
         ))}
       </View>
@@ -109,30 +86,62 @@ const styles = StyleSheet.create({
     placeItems: "center",
   },
   deleteButton: {
-    backgroundColor: "#00FFFF",
-    width: "50",
-    height: "50",
+    alignItems: "right",
+    maxWidth: "40px",
+    fontSize: "0.9rem",
+    color: "#FFF",
+  },
+  areaNote: {
+    width: "40%",
   },
   newNoteButton: {
-    alignItems: "center",
+    marginTop: "20px",
+    marginBottom: "20px",
     backgroundColor: "#DDDDDD",
-    width: "100",
-    flex: 1,
-    padding: 10,
+    alignItems: "left",
+    width: "100%",
+    padding: "10px",
+    borderRadius: "3px",
   },
   defaultInput: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    color: "#FFF",
+  },
+  noteTitle: {
+    color: "#8257e5",
+    fontSize: "2rem",
+    lineHeight: "2rem",
+    fontWeight: "700",
+  },
+  noteDescription: {
+    color: "white",
+    fontSize: "1.5rem",
+    fontWeight: "600",
   },
   note: {
-    color: "black",
+    flex: 1,
+    marginTop: 24,
+    flexDirection: "column",
+    gap: 4,
+    backgroundColor: "#17161b",
+    paddingHorizontal: 24,
+    paddingVertical: 16,
   },
   title: {
     color: "#FFF",
   },
-  name: {
-    color: "#FFF",
+  buttonText: {
+    color: "#8257e5",
+  },
+  authorName: {
+    fontSize: "1.5rem",
+    lineHeight: "2rem",
+    color: "#8257e5",
+  },
+  locationDeleteButton: {
+    alignItems: "flex-end",
   },
 });
